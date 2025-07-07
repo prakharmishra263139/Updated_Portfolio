@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Prakhar Mishra</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">PrakharMishra...</a>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="Projects.html">Projects</a></li>
+            <li class="active"><a href="contact.html">Contact</a></li>
+            <li><a href="bot.html">AskBot</a></li>
+        </ul>
+    </nav>
+
+    <div class="bars-animation">
+        <div class="bar" style="--i:6;"></div>
+        <div class="bar" style="--i:5;"></div>
+        <div class="bar" style="--i:4;"></div>
+        <div class="bar" style="--i:3;"></div>
+        <div class="bar" style="--i:2;"></div>
+        <div class="bar" style="--i:1;"></div>    
+    </div>
+
+    <div class="form-container">
+        <h1>Contact Me</h1>
+        <h2>Get in Touch</h2>
+        <form name="submit-to-google-sheet">
+            <input name="Name" type="text" placeholder="Name">
+            <input name="Email" type="email" placeholder="Email" required>
+            <textarea name="Message" rows="6" placeholder="Message"></textarea>
+            <button type="submit" class="btn btn2" id="submit-btn">Submit</button>
+        </form>
+
+        <div class="loading js-loading is-hidden">
+            <div class="loading-spinner">
+                <svg><circle cx="25" cy="25" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg>
+            </div>
+        </div>
+
+        <!-- <p class="js-success-message is-hidden">Success! Your message has been sent.</p>
+        <p class="js-error-message is-hidden">Error! Please try again.</p> -->
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwmAj3iYjof5KcsQx1XLdPtiz4SIrn8yPGYzrpXkvAagSb3D82jKVjebvOAyVkyf2YF/exec';
+        const form = document.forms['submit-to-google-sheet'];
+        const submitBtn = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+
+            // Disable the submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                .then(response => {
+                    console.log('Success!', response);
+                    alert('Submitted successfully!'); // Show pop-up message
+                    submitBtn.textContent = 'Submit';
+                    submitBtn.disabled = false; // Re-enable the button
+                    form.reset();
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    alert('Error submitting form. Please try again.'); // Show error message
+                    submitBtn.textContent = 'Submit';
+                    submitBtn.disabled = false; // Re-enable the button
+                });
+        });
+    </script>
+</body>
+</html>
